@@ -1,0 +1,54 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="include">
+      <UniqueIdentifier>{fd5ca4e5-0163-47ee-8c03-072b0e074d36}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src">
+      <UniqueIdentifier>{2e313868-ec7c-491a-b0ed-ea94f98d061a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="docs">
+      <UniqueIdentifier>{610b80f6-67b2-4263-a374-7acb158a737f}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\include\zWin.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\zWin_windows.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\zWinFactory.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\zOGLESContext.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\zOGLESRuntime.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\zOGLESSurface.h">
+      <Filter>include</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\src\zWin.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\zWin_windows.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\zWinFactory.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\zOGLESContext.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\zOGLESRuntime.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\zOGLESSurface.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>
