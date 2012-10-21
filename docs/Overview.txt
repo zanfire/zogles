@@ -1,0 +1,36 @@
+ Ovewview
+==================================================
+
+The Object tree
+==================================================
+> zGuiObject (abstract)
+The Base class is zGuiObject that defines an abstract GUI object.
+This object defines the common interface for all object.
+
+An object is a rectangular area containings a set of child.
+
+Containers
+> zGuiContainer (abstract)
+> zGuiContainerStack (real)
+GUI Elements
+> zGuiText (real)
+> zGuiButton (real)
+< zGuiImage (real)
+
+
+The layout & rendering cycle.
+==================================================
+The rendering tree is composed by a cycle of layout that compute the position.
+After the layout cycle is called the rendering cycle.
+
+
+Initializing
+==================================================
+The initializing process needs a phase where user create the tree and a phase where 
+the rendering initialize the OGLES system. (create Fragment etc).
+
+Initialization, questions
+
+1. eglInitialize is called per thread or at first time at all?
+
+ zOGLESRuntime 

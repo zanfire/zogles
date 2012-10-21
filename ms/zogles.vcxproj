@@ -11,22 +11,37 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\include\zGuiObject.h" />
+    <ClInclude Include="..\include\zGuiRect.h" />
+    <ClInclude Include="..\include\zGuiStack.h" />
+    <ClInclude Include="..\include\zOGLESConfigs.h" />
     <ClInclude Include="..\include\zOGLESContext.h" />
+    <ClInclude Include="..\include\zOGLESFragmentShaderProgram.h" />
     <ClInclude Include="..\include\zOGLESRuntime.h" />
     <ClInclude Include="..\include\zOGLESSurface.h" />
+    <ClInclude Include="..\include\zOGLESTexture.h" />
     <ClInclude Include="..\include\zWin.h" />
     <ClInclude Include="..\include\zWinFactory.h" />
     <ClInclude Include="..\include\zWin_windows.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\src\zGuiObject.cpp" />
+    <ClCompile Include="..\src\zGuiRect.cpp" />
+    <ClCompile Include="..\src\zGuiStack.cpp" />
+    <ClCompile Include="..\src\zOGLESConfigs.cpp" />
     <ClCompile Include="..\src\zOGLESContext.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
     </ClCompile>
+    <ClCompile Include="..\src\zOGLESFragmentShaderProgram.cpp" />
     <ClCompile Include="..\src\zOGLESRuntime.cpp" />
     <ClCompile Include="..\src\zOGLESSurface.cpp" />
+    <ClCompile Include="..\src\zOGLESTexture.cpp" />
     <ClCompile Include="..\src\zWin.cpp" />
     <ClCompile Include="..\src\zWinFactory.cpp" />
     <ClCompile Include="..\src\zWin_windows.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="..\docs\Overview.txt" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{83873E51-CC84-4FEA-9A9D-5A7B2336A59A}</ProjectGuid>

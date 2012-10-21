@@ -33,13 +33,28 @@ void zWinFactory::shutdown(void) {
 zWin* zWinFactory::create(zRect const& pos, zString const& name) {
   zScopeMutex scope(_singleton_mtx);
 #if defined(_WIN32)
-  zWin* win = new zWin_windows();
+  zWin* win = new zWin_windows(this);
 #endif
   _windows.append(win);
   win->start();
   // Should be nice wait for the creation completed.
 
   return win;
+}
+
+
+void zWinFactory::on_window_destroy(zWin* win) {
+  zScopeMutex scope(_singleton_mtx);
+  for (int i = 0; i < _windows.get_count(); i++) {
+    zWin* w = NULL;
+    if (_windows.get(i, &w)) {
+      if (win == w) {
+        _windows.remove(i, NULL);
+        break;
+      }
+    }
+  }
+  _event_close.signal();
 }
 
 

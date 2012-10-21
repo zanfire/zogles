@@ -19,39 +19,51 @@
 
 #include "zCommon.h"
 #include "zRect.h"
+#include "zThread.h"
+#include "zObject.h"
 #include "zRunnable.h"
 
 #include <EGL/egl.h>
 
 class zThread;
 class zLogger;
+class zGuiObject;
 
 #if defined(_WIN32)
 # define ZWIN_ID HWND
 #else
 #endif
 
-class zWin : zRunnable {
+class zWin : public zRunnable, public zObject {
+  
   friend class zWinFactory;
 
 protected:
   zLogger* _logger;
+  zWinFactory* _factory;
   ZWIN_ID _id;
+  zMutex* _mtx;
   zThread* _thread;
+  bool _request_close;
+  zGuiObject* _root;
+  
+  bool _invalidate_pos;
+  zRect _pos;
 public:
   /// Returns the window ID. The window ID is the system dependent handle.
   ZWIN_ID get_id(void) const { return _id; }
-
-  bool destroy(void);
-
-  bool open(void);
-  void close(void);
-
+  /// Returns the thread ID of the thread that handle this window.
+  THREAD_ID get_loop_thread_id(void) const;
+  zMutex* get_mutex(void) const { return _mtx; }
+ 
   /// Returns the EGL display for the window.
   EGLDisplay get_display(void);
 
+  int get_width(void) const { return _pos.width(); }
+  int get_height(void) const { return _pos.height(); }
+
 protected:
-  zWin(void);
+  zWin(zWinFactory* factory);
   virtual ~zWin(void);
     
   void start(void);
@@ -68,6 +80,10 @@ protected:
   virtual void impl_create(zRect const& pos) = 0;
   /// Get the EGL display.
   virtual EGLDisplay impl_get_display(void) = 0;
+
+  // Callback
+  void handle_size(int w, int h);
+
 };
 
 #endif // ZWIN_H__

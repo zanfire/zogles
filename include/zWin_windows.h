@@ -28,7 +28,7 @@ public:
   HDC _deviceContext;
 
 public:
-  zWin_windows(void);
+  zWin_windows(zWinFactory* factory);
   virtual ~zWin_windows(void);
 
   

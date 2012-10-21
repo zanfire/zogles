@@ -25,13 +25,15 @@
 #include "zEvent.h"
 
 class zWinFactory {
+  
+  friend class zWin;
+
 protected:
   static zMutex* _singleton_mtx;
   static zWinFactory* _singleton;
 
   zArray<zWin*> _windows;
   zEvent _event_close;
-  zThread* _thread;
 public:
   static zWinFactory* get_instance(void);
   /// Releases all resources. After this method the zWinFactory cannot be used.
@@ -48,6 +50,8 @@ public:
 protected:
   zWinFactory(void);
   virtual ~zWinFactory(void);
+
+  void on_window_destroy(zWin* win);
 };
 
 #endif // ZWINFACTORY_H__

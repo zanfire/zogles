@@ -28,6 +28,7 @@ class zWin;
 class zOGLESContext {
 protected:
   zLogger* _logger;
+  EGLDisplay _display;
   EGLSurface _surface;
   EGLContext _context;
   
@@ -35,13 +36,14 @@ public:
   zOGLESContext(void);
   virtual ~zOGLESContext(void);
 
-  bool create(zWin* win);
+  bool create(EGLDisplay display, EGLConfig config, EGLSurface surface);
   void destroy(void);
 
   EGLSurface get_surface(void) { return _context; };
   EGLContext get_context(void) { return _surface; };
 
-protected:
+  void make_current(void);
+  void swap_buffers(void);
 };
 
 #endif // ZOGLESCONTEXT_H__

@@ -14,34 +14,35 @@
  * limitations under the License.
  *****************************************************************************/
 
-#ifndef ZOGLESSURFACE_H__
-#define ZOGLESSURFACE_H__
+#ifndef ZGUIRECT_H__
+#define ZGUIRECT_H__
 
 #include "zCommon.h"
+#include "zGuiObject.h"
+
+#include <GLES2/gl2.h>
 
 class zLogger;
 class zWin;
-class zOGLESRuntime;
+class zOGLESFragmentShaderProgram;
 
-#include <EGL/egl.h>
-
-class zOGLESSurface {
-  friend class zOGLESRuntime;
-
+class zGuiRect : public zGuiObject {
 protected:
-  zLogger* _logger;
-  EGLDisplay _display;
-  EGLSurface _surface;
-
+  zOGLESFragmentShaderProgram* _program;
+  GLint _position;
+  GLint _color;
+  GLfloat _position_vertexs[6 * 2];
 public:
+  zGuiRect(zWin* win);
 
 protected:
-  zOGLESSurface(void);
-  virtual ~zOGLESSurface(void);
+  /// Protected because must be delete by zObject::release_reference.
+  virtual ~zGuiRect(void);
 
-protected:
-  bool create(EGLDisplay display, EGLConfig config, EGLNativeWindowType native_win);
+  virtual void impl_init(void);
+  virtual void impl_layout(zRect const& area);
+  virtual void impl_render(void);
 };
 
-#endif // ZOGLESSURFACE_H__
+#endif // ZGUIRECT_H__
 

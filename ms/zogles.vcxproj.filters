@@ -30,6 +30,24 @@
     <ClInclude Include="..\include\zOGLESSurface.h">
       <Filter>include</Filter>
     </ClInclude>
+    <ClInclude Include="..\include\zGuiObject.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\zGuiRect.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\zGuiStack.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\zOGLESFragmentShaderProgram.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\zOGLESTexture.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\zOGLESConfigs.h">
+      <Filter>include</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\src\zWin.cpp">
@@ -50,5 +68,28 @@
     <ClCompile Include="..\src\zOGLESSurface.cpp">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="..\src\zGuiObject.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\zGuiRect.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\zGuiStack.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\zOGLESFragmentShaderProgram.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\zOGLESTexture.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\zOGLESConfigs.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="..\docs\Overview.txt">
+      <Filter>docs</Filter>
+    </Text>
   </ItemGroup>
 </Project>

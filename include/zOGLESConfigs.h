@@ -14,34 +14,35 @@
  * limitations under the License.
  *****************************************************************************/
 
-#ifndef ZOGLESSURFACE_H__
-#define ZOGLESSURFACE_H__
+#ifndef ZOGLESCONFIGS_H__
+#define ZOGLESCONFIGS_H__
 
 #include "zCommon.h"
 
-class zLogger;
-class zWin;
-class zOGLESRuntime;
+#include "zArray.h"
 
 #include <EGL/egl.h>
 
-class zOGLESSurface {
-  friend class zOGLESRuntime;
+class zLogger;
+class zOGLESRuntime;
 
+class zOGLESConfigs {
+  friend class zOGLESRuntime;
 protected:
   zLogger* _logger;
   EGLDisplay _display;
-  EGLSurface _surface;
+  zArray<EGLConfig> _configs;
 
 public:
 
-protected:
-  zOGLESSurface(void);
-  virtual ~zOGLESSurface(void);
+  /// Returns a EGLConfig with the requested the colors size.
+  EGLConfig choose_match(int red_size, int green_size, int blue_size);
 
 protected:
-  bool create(EGLDisplay display, EGLConfig config, EGLNativeWindowType native_win);
+  zOGLESConfigs(EGLDisplay display);
+  virtual ~zOGLESConfigs(void);
+
+  bool load_configs(void);
 };
 
-#endif // ZOGLESSURFACE_H__
-
+#endif // ZOGLESCONFIGS_H__

@@ -33,6 +33,7 @@
 #include "zFile.h"
 #include "zStringBuilder.h"
 
+#include "zWin.h"
 #include "zWinFactory.h"
 
 #if defined(ENABLED_DMALLOC)
@@ -102,23 +103,23 @@ int main(int argc, char const** argv) {
     exit(EXIT_FAILURE);
   }
 
-
   g_logger = zLogger::get_logger("zanbase_test_runner");
-
 
   // Create all window.
   zWinFactory* factory = zWinFactory::get_instance();
-  factory->create(zRect(10, 10, 210, 210), "Main window");
+  zWin* win = factory->create(zRect(10, 10, 210, 210), "Main window");
   // 
   factory->wait_all_windows_close();
 
   factory->shutdown();
+  win->release_reference();
   g_logger->shutdown();
   g_logger->release_reference();
   delete getopt;
 
 #if defined(_CRTDBG_MAP_ALLOC)
-  if (_CrtDumpMemoryLeaks()) {
+  int found = _CrtDumpMemoryLeaks();
+  if (found > 0) {
     DebugBreak();
   }
 #endif

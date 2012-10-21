@@ -24,23 +24,46 @@
 #include "zArray.h"
 #include "zEvent.h"
 
+#include <EGL/egl.h>
+#include <GLES2/gl2.h>
+
+class zLogger;
+class zOGLESConfigs;
+class zOGLESSurface;
+class zOGLESContext;
+
 class zOGLESRuntime {
 protected:
   static zMutex* _singleton_mtx;
   static zOGLESRuntime* _singleton;
+
+  zLogger* _logger;
+  EGLDisplay _display;
+  zOGLESConfigs* _configs;
+  zOGLESSurface* _surface;
+  zOGLESContext* _context;
 
 public:
   static zOGLESRuntime* get_instance(void);
   /// Releases all resources. After this method the zWinFactory cannot be used.
   /// NOTE: This method MUST be called when application is closing.
   static void shutdown(void);
-  
-  ///
-  //void initializeOpenGLES(void);
 
+  bool init(zWin* win);
+  
+  zOGLESConfigs* get_configs(void);
+  zOGLESSurface* get_surface(void) { return _surface; }
+  zOGLESContext* get_context(void) { return _context; }
+
+  // Utils methods
+  static bool check_op_egl(zLogger* logger, char const* op);
+  static bool check_op_gl(zLogger* logger, char const* op);
+
+  static char const* conv_gl_error_to_chars(GLint error);
 protected:
   zOGLESRuntime(void);
   virtual ~zOGLESRuntime(void);
+
 };
 
 #endif // ZOGLESRUNTIME_H__

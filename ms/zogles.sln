@@ -2,6 +2,9 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Express 2012 for Windows Desktop
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "zogles", "zogles.vcxproj", "{83873E51-CC84-4FEA-9A9D-5A7B2336A59A}"
+	ProjectSection(ProjectDependencies) = postProject
+		{302E5CD0-DC82-4A4F-BEC6-B549ADB7D03F} = {302E5CD0-DC82-4A4F-BEC6-B549ADB7D03F}
+	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "zogles_test", "zogles_test.vcxproj", "{D711E9BB-349E-4EE2-AF14-2E5ECD1BC1DC}"
 EndProject

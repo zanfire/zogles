@@ -2,7 +2,13 @@
 
 #include "zLogger.h"
 #include "zThread.h"
+#include "zMutex.h"
 
+#include "zWinFactory.h"
+#include "zGuiObject.h"
+#include "zGuiStack.h"
+#include "zOGLESRuntime.h"
+#include "zOGLESConfigs.h"
 #include "zOGLESContext.h"
 
 #include <EGL/egl.h>
@@ -10,14 +16,24 @@
 #include <GLES2/gl2ext.h>
 
 
-zWin::zWin(void) {
+zWin::zWin(zWinFactory* factory) {
   _logger = zLogger::get_logger("zWin");
+  _mtx = new zMutex();
   _id = 0;
   _thread = new zThread(this);
+  _root = NULL;
+  _request_close = false;
+  _factory = factory;
+
+  _invalidate_pos = true;
+  _pos = zRect(0,0,0,0);
 }
 
 
 zWin::~zWin(void) {
+  delete _mtx;
+  delete _thread;
+  _logger->release_reference();
 }
 
 
@@ -25,41 +41,61 @@ void zWin::start(void) {
   _thread->start();
 }
 
+#include "zGuiRect.h"
 
 int zWin::run(void* param) {
-  impl_create(zRect(10, 10, 210, 210));
+  impl_create(zRect(10, 10, 400, 400));
+
+  zOGLESRuntime* runtime = zOGLESRuntime::get_instance();
   
-  zOGLESContext* contex = new zOGLESContext();
+  runtime->init(this);
+  zOGLESContext* contex = runtime->get_context();
 
-  if (!contex->create(this)) {
-    _logger->error("Failed to create context.");
+  contex->make_current();
+  // Load gui objects
+
+  _root = new zGuiStack(this);
+
+  for (int i = 0; i < 5; i++) {
+    zGuiObject* o = new zGuiRect(this);
+    o->set_width(100);
+    o->set_height(100);
+    o->set_padding(zRect(10, 10, 10, 10));
+    _root->add_child(o);
+    o->release_reference();
   }
+  ((zGuiStack*)_root)->set_orientation(zGuiStack::ORIENTATION_VERTICAL);
+  _root->init();
 
-  eglMakeCurrent(get_display(), contex->get_surface(), contex->get_surface(), contex->get_context());
 
-  _logger->info("OpenGL ES Version = %s", glGetString(GL_VERSION));
-  _logger->info("OpenGL ES Vendor = %s", glGetString(GL_VENDOR));
-  _logger->info("OpenGL ES Renderer = %s", glGetString(GL_RENDERER));
-  _logger->info("OpenGL ES Extensions = %s", glGetString(GL_EXTENSIONS));
-
-  for (;;) {
+  while (!_request_close) {
     while(peek_message()) {
       // Looping on message handling.
     }
 
-    render();
+    if (_invalidate_pos) {
+      glViewport(0, 0, _pos.width(), _pos.height());
+      _invalidate_pos = false;
+      _root->layout(zRect(0, 0, _pos.width(), _pos.height()));
+    }
 
-    // Push the EGL surface color buffer to the native window. Causes the rendered graphics to be displayed on screen.
-    eglSwapBuffers(get_display(), contex->get_surface()); 
+    // Render
+    contex->make_current();
+    render();
+    contex->swap_buffers();
 
     zThread::sleep(66); // TODO compute delta.
   }
+  _root->release_reference();
   //impl_destroy();
+  _factory->on_window_destroy(this);
+  zOGLESRuntime::shutdown();
+  return 0;
 }
 
-bool zWin::destroy(void) {
-  
-  return false;
+
+THREAD_ID zWin::get_loop_thread_id(void) const {
+  return _thread->get_thread_id();
 }
 
 
@@ -75,10 +111,23 @@ EGLDisplay zWin::get_display(void) {
 
 void zWin::render(void) {
   // Color background
-    // Only one color, revert to standard glClear for better performance
-  //glDisable(GL_BLEND);
-  glClearColor(1.0f, 0.0f, 0.0f, 1.0f);
+  glDisable(GL_DITHER);
+  glDisable(GL_DEPTH_TEST);
+  glDisable(GL_BLEND);
   glClear(GL_COLOR_BUFFER_BIT);
+  glClearColor(0.3f, 0.3f, 0.3f, 1.0f);
 
-  // Should invoke child rendering method.
+
+  if (_root != NULL) {
+    _root->render();
+  }
+}
+
+
+void zWin::handle_size(int w, int h) {
+  _logger->debug("Updating window size to %dx%d.", w, h);
+  // Check thread!!!
+  _invalidate_pos = true;
+  _pos.right = _pos.left + w;
+  _pos.bottom = _pos.top + h;
 }

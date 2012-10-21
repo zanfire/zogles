@@ -14,34 +14,37 @@
  * limitations under the License.
  *****************************************************************************/
 
-#ifndef ZOGLESSURFACE_H__
-#define ZOGLESSURFACE_H__
+#ifndef ZGUISTACK_H__
+#define ZGUISTACK_H__
 
 #include "zCommon.h"
+#include "zGuiObject.h"
 
 class zLogger;
 class zWin;
-class zOGLESRuntime;
 
-#include <EGL/egl.h>
-
-class zOGLESSurface {
-  friend class zOGLESRuntime;
-
-protected:
-  zLogger* _logger;
-  EGLDisplay _display;
-  EGLSurface _surface;
-
+class zGuiStack : public zGuiObject {
 public:
+  enum Orientation {
+    ORIENTATION_VERTICAL = 0,
+    ORIENTATION_HORIZONTAL
+  };
 
 protected:
-  zOGLESSurface(void);
-  virtual ~zOGLESSurface(void);
+    Orientation _orientation;
+public:
+  zGuiStack(zWin* win);
+  
+  void set_orientation(Orientation orientation) { _orientation = orientation; }
 
 protected:
-  bool create(EGLDisplay display, EGLConfig config, EGLNativeWindowType native_win);
+  /// Protected because must be delete by zObject::release_reference.
+  virtual ~zGuiStack(void);
+
+  virtual void impl_init(void) {}
+  virtual void impl_layout(zRect const& area);
+  virtual void impl_render(void);
 };
 
-#endif // ZOGLESSURFACE_H__
+#endif // ZGUISTACK_H__
 

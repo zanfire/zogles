@@ -16,12 +16,13 @@ LRESULT CALLBACK  main_loop(HWND hWnd, UINT uiMsg, WPARAM wParam, LPARAM lParam)
   }
 }
 
-zWin_windows::zWin_windows(void) {
+zWin_windows::zWin_windows(zWinFactory* factory) : zWin(factory) {
   _deviceContext = 0;
 }
 
 
 zWin_windows::~zWin_windows(void) {
+  DestroyWindow(_id);
 }
 
 
@@ -73,17 +74,26 @@ EGLDisplay zWin_windows::impl_get_display(void) {
 
 
 LRESULT zWin_windows::handle_message(UINT uiMsg, WPARAM wParam, LPARAM lParam) {
-  _logger->debug("Incoming message %d", (int)uiMsg);
+  //_logger->debug("Incoming message %d", (int)uiMsg);
   switch (uiMsg) { 
+    case WM_SIZE: 
+      {
+        int w = (int)(short)LOWORD(lParam);
+        int h = (int)(short)HIWORD(lParam);
+        handle_size(w, h);
+        return 0; 
+      }
+    case WM_CLOSE:
+      {
+        _request_close = true;
+        return 0;
+      }
     /*
     case WM_CREATE: 
       // Initialize the window. 
       return 0; 
     case WM_PAINT: 
       // Paint the window's client area. 
-      return 0; 
-    case WM_SIZE: 
-      // Set the size and position of the window. 
       return 0; 
     case WM_DESTROY: 
       // Clean up window-specific data objects. 
@@ -93,8 +103,7 @@ LRESULT zWin_windows::handle_message(UINT uiMsg, WPARAM wParam, LPARAM lParam) {
     // 
     default: 
         return DefWindowProc(_id, uiMsg, wParam, lParam); 
-  } 
-  return 0;
+  }
 }
 
 
