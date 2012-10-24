@@ -23,19 +23,19 @@ zOGLESFragmentShaderProgram::~zOGLESFragmentShaderProgram(void) {
 } 
 
 
-bool zOGLESFragmentShaderProgram::createProgram(char const* vertex, char const* fragment) {
+bool zOGLESFragmentShaderProgram::create(char const* vertex, char const* fragment) {
   if (_id == 0) {
     _logger->error("Failed to create program because the program isn't initialized correctly.");
     return false;
   }
 
-  _vertex = loadShader(GL_VERTEX_SHADER, vertex);
+  _vertex = load(GL_VERTEX_SHADER, vertex);
   if (_vertex == 0) {
     _logger->error("Failed to load vertex shader in program %u.", _id);
     return false;
   }
 
-  _fragment = loadShader(GL_FRAGMENT_SHADER, fragment);
+  _fragment = load(GL_FRAGMENT_SHADER, fragment);
 
   if (_fragment == 0) {
     // TODO: Handle unload of _vertex shader.
@@ -65,22 +65,33 @@ bool zOGLESFragmentShaderProgram::createProgram(char const* vertex, char const* 
 }
 
 
-bool zOGLESFragmentShaderProgram::useProgram(void) {
+bool zOGLESFragmentShaderProgram::use(void) {
   glUseProgram(_id);
   return zOGLESRuntime::check_op_gl(_logger, "glUseProgram");
 }
 
 GLint zOGLESFragmentShaderProgram::get_attrib_location(char const* name) {
-  // TODO: Logging
+  GLint res = -1;
   if (_id != 0) {
-    return glGetAttribLocation(_id, name);
+    res = glGetAttribLocation(_id, name);
+    zOGLESRuntime::check_op_gl(_logger, "glGetAttribLocation");
   }
-  return 0;
+  return res;
+}
+
+
+GLint zOGLESFragmentShaderProgram::get_uniform_location(char const* name) {
+  GLint res = -1;
+  if (_id != 0) {
+    res = glGetUniformLocation(_id, name);
+    zOGLESRuntime::check_op_gl(_logger, "glGetUniformLocation");
+  }
+  return res;
 }
 
 
 
-GLuint zOGLESFragmentShaderProgram::loadShader(GLuint type, const char* src) {
+GLuint zOGLESFragmentShaderProgram::load(GLuint type, const char* src) {
   GLuint shader = glCreateShader(type);
   if (shader != 0) {
     glShaderSource(shader, 1, &src, NULL);

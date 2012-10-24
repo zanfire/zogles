@@ -14,38 +14,51 @@
  * limitations under the License.
  *****************************************************************************/
 
-#ifndef ZGUISTACK_H__
-#define ZGUISTACK_H__
+#ifndef ZGUITEXT_H__
+#define ZGUITEXT_H__
 
 #include "zCommon.h"
 #include "zGuiObject.h"
+#include "zString.h"
+#include "zArray.h"
+
+#include <GLES2/gl2.h>
 
 class zLogger;
 class zWin;
+class zFontFT;
+class zFontGlyph;
+class zOGLESFragmentShaderProgram;
 
-/// This class is a container of zGuiObject. Each obj is stacked vertically/horizontally (set_orientation).
-class zGuiStack : public zGuiObject {
-public:
-  enum Orientation {
-    ORIENTATION_VERTICAL = 0,
-    ORIENTATION_HORIZONTAL
-  };
-
+class zGuiText : public zGuiObject {
 protected:
-    Orientation _orientation;
-public:
-  zGuiStack(zWin* win);
+  zFontFT* _font;
+  zString _text;
+  zArray<zFontGlyph*> _glyphs;
+
+  zOGLESFragmentShaderProgram* _program;
+  GLint _coord;
+  GLint _uniform_tex;
+  GLint _uniform_color;
+  GLfloat* _position_vertexs;
+
+  GLuint _tex;
+  GLuint _vbo;
   
-  void set_orientation(Orientation orientation) { _orientation = orientation; }
+public:
+  zGuiText(zWin* win);
+
+  void set_text(zString const& text) { _text = text; }
+  zString get_text(void) { return _text; }
 
 protected:
   /// Protected because must be delete by zObject::release_reference.
-  virtual ~zGuiStack(void);
+  virtual ~zGuiText(void);
 
-  virtual void impl_init(void) {}
+  virtual void impl_init(void);
   virtual void impl_layout(zRect const& area);
   virtual void impl_render(void);
 };
 
-#endif // ZGUISTACK_H__
+#endif // ZGUITEXT_H__
 

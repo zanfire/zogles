@@ -7,6 +7,7 @@
 #include "zWinFactory.h"
 #include "zGuiObject.h"
 #include "zGuiStack.h"
+#include "zGuiText.h"
 #include "zOGLESRuntime.h"
 #include "zOGLESConfigs.h"
 #include "zOGLESContext.h"
@@ -56,10 +57,18 @@ int zWin::run(void* param) {
 
   _root = new zGuiStack(this);
 
-  for (int i = 0; i < 5; i++) {
+  for (int i = 0; i < 0; i++) {
     zGuiObject* o = new zGuiRect(this);
     o->set_width(100);
     o->set_height(100);
+    o->set_padding(zRect(10, 10, 10, 10));
+    _root->add_child(o);
+    o->release_reference();
+  }
+  
+  for (int i = 0; i < 1; i++) {
+    zGuiText* o = new zGuiText(this);
+    o->set_text("Hello world!");
     o->set_padding(zRect(10, 10, 10, 10));
     _root->add_child(o);
     o->release_reference();
@@ -113,9 +122,10 @@ void zWin::render(void) {
   // Color background
   glDisable(GL_DITHER);
   glDisable(GL_DEPTH_TEST);
-  glDisable(GL_BLEND);
+  
+  glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
   glClear(GL_COLOR_BUFFER_BIT);
-  glClearColor(0.3f, 0.3f, 0.3f, 1.0f);
+  
 
 
   if (_root != NULL) {

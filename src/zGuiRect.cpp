@@ -38,7 +38,7 @@ void zGuiRect::impl_init(void) {
     "  gl_FragColor = colorVarying;"
     "}";
 
-  _program->createProgram(vertex, fragment);
+  _program->create(vertex, fragment);
 
   _position = _program->get_attrib_location("position");
   _color = _program->get_attrib_location("color");
@@ -65,10 +65,8 @@ void zGuiRect::impl_render(void) {
   GLfloat colorVertexs[] = { 1.0f, 0.0f, 0.0f, 1.0f, 
                              1.0f, 0.0f, 0.0f, 1.0f,
                              1.0f, 0.0f, 0.0f, 1.0f, // End 1
-                             1.0f, 0.0f, 0.0f, 1.0f,
-                             0.0f, 0.0f, 0.0f, 1.0f, 
-                             0.0f, 0.0f, 0.0f, 1.0f };
-  _program->useProgram();
+                             0.6f, 0.0f, 0.0f, 1.0f };
+  _program->use();
   
   glVertexAttribPointer(_position, 2, GL_FLOAT, GL_FALSE, 0, &_position_vertexs);
   zOGLESRuntime::check_op_gl(_logger, "glVertexAttribPointer positiion");

@@ -19,15 +19,16 @@ public:
   // Get the program ID
   unsigned int get_id(void) { return _id; }
   /// Creates program.
-  bool createProgram(char const* vertex, char const* fragment);
+  bool create(char const* vertex, char const* fragment);
   /// Use program.
-  bool useProgram(void);
+  bool use(void);
 
   GLint get_attrib_location(char const* name);
+  GLint get_uniform_location(char const* name);
 
 protected:
   /// Load specific type of shader.
-  GLuint loadShader(GLuint shaderType, char const* src);
+  GLuint load(GLuint shaderType, char const* src);
 };
 
 #endif // ZOGLESFRAGMENTSHADERPROGRAM_H__

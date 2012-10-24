@@ -48,6 +48,18 @@
     <ClInclude Include="..\include\zOGLESConfigs.h">
       <Filter>include</Filter>
     </ClInclude>
+    <ClInclude Include="..\include\zGuiText.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\FontFTRendererOGL.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\zFontFT.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\zFontGlyph.h">
+      <Filter>include</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\src\zWin.cpp">
@@ -84,6 +96,18 @@
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="..\src\zOGLESConfigs.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\zGuiText.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\FontFTRendererOGL.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\zFontFT.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\zFontGlyph.cpp">
       <Filter>src</Filter>
     </ClCompile>
   </ItemGroup>

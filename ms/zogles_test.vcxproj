@@ -70,8 +70,8 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>Ws2_32.lib;libEGL.lib;libGLESv2.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>../externals/ogles/powervr/lib/</AdditionalLibraryDirectories>
+      <AdditionalDependencies>Ws2_32.lib;libEGL.lib;libGLESv2.lib;freetype248MT.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>../externals/ogles/powervr/lib/;../externals/freetype/lib/win32_x86_mt</AdditionalLibraryDirectories>
     </Link>
     <PostBuildEvent>
       <Command>xcopy /Y $(SolutionDir)..\externals\ogles\powervr\lib\libGLESv2.dll $(OutDir)
@@ -94,8 +94,8 @@ xcopy /Y $(SolutionDir)..\externals\ogles\powervr\lib\libEGL.dll $(OutDir)</Comm
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalDependencies>Ws2_32.lib;libEGL.lib;libGLESv2.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>../externals/mali_emulator/lib/x86-win32</AdditionalLibraryDirectories>
+      <AdditionalDependencies>Ws2_32.lib;libEGL.lib;libGLESv2.lib;freetype248MT.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>../externals/ogles/powervr/lib/;../externals/freetype/lib/win32_x86_mt</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

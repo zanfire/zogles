@@ -11,9 +11,15 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\include\zFontFT.h" />
+    <ClInclude Include="..\include\FontFTRendererOGL.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="..\include\zFontGlyph.h" />
     <ClInclude Include="..\include\zGuiObject.h" />
     <ClInclude Include="..\include\zGuiRect.h" />
     <ClInclude Include="..\include\zGuiStack.h" />
+    <ClInclude Include="..\include\zGuiText.h" />
     <ClInclude Include="..\include\zOGLESConfigs.h" />
     <ClInclude Include="..\include\zOGLESContext.h" />
     <ClInclude Include="..\include\zOGLESFragmentShaderProgram.h" />
@@ -25,9 +31,15 @@
     <ClInclude Include="..\include\zWin_windows.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\src\zFontFT.cpp" />
+    <ClCompile Include="..\src\FontFTRendererOGL.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\src\zFontGlyph.cpp" />
     <ClCompile Include="..\src\zGuiObject.cpp" />
     <ClCompile Include="..\src\zGuiRect.cpp" />
     <ClCompile Include="..\src\zGuiStack.cpp" />
+    <ClCompile Include="..\src\zGuiText.cpp" />
     <ClCompile Include="..\src\zOGLESConfigs.cpp" />
     <ClCompile Include="..\src\zOGLESContext.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
@@ -87,7 +99,7 @@
       <WarningLevel>Level4</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>../include;../../zanbase/include;../externals/mali_emulator/include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../include;../../zanbase/include;../externals/mali_emulator/include;../externals/freetype/include</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -103,7 +115,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>../include;../../zanbase/include;../externals/mali_emulator/include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../include;../../zanbase/include;../externals/mali_emulator/include;../externals/freetype/include</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
