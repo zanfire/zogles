@@ -25,11 +25,11 @@ void zGuiRect::impl_init(void) {
   _program = new zOGLESFragmentShaderProgram();
 
   static const char vertex[] =
-    "attribute vec4 position;"
+    "attribute vec2 position;"
     "attribute vec4 color;"
     "varying vec4 colorVarying;"
     "void main() {"
-    "  gl_Position = position;"
+    "  gl_Position = vec4(position.xy, 0, 1);"
     "  colorVarying = color;"
     "}";
   static const char fragment[] =
@@ -42,6 +42,12 @@ void zGuiRect::impl_init(void) {
 
   _position = _program->get_attrib_location("position");
   _color = _program->get_attrib_location("color");
+
+  glEnableVertexAttribArray(_position);
+  zOGLESRuntime::check_op_gl(_logger, "glEnableVertexAttribArray position");
+  glEnableVertexAttribArray(_color);
+  zOGLESRuntime::check_op_gl(_logger, "glEnableVertexAttribArray color");
+
 }
 
 
@@ -62,22 +68,22 @@ void zGuiRect::impl_layout(zRect const& area) {
 
 
 void zGuiRect::impl_render(void) {
-  GLfloat colorVertexs[] = { 1.0f, 0.0f, 0.0f, 1.0f, 
-                             1.0f, 0.0f, 0.0f, 1.0f,
-                             1.0f, 0.0f, 0.0f, 1.0f, // End 1
-                             0.6f, 0.0f, 0.0f, 1.0f };
+  GLfloat colorVertexs[] = { 1.0f, 0.0f, 0.0f, _alpha, 
+                             1.0f, 0.0f, 0.0f, _alpha,
+                             1.0f, 0.0f, 0.0f, _alpha,
+                             1.0f, 0.0f, 0.0f, _alpha };
   _program->use();
+
+ 
   
   glVertexAttribPointer(_position, 2, GL_FLOAT, GL_FALSE, 0, &_position_vertexs);
   zOGLESRuntime::check_op_gl(_logger, "glVertexAttribPointer positiion");
   glVertexAttribPointer(_color, 4, GL_FLOAT, GL_FALSE, 0, &colorVertexs);
   zOGLESRuntime::check_op_gl(_logger, "glVertexAttribPointer color");
 
-  glEnableVertexAttribArray(_position);
-  zOGLESRuntime::check_op_gl(_logger, "glEnableVertexAttribArray position");
-  glEnableVertexAttribArray(_color);
-  zOGLESRuntime::check_op_gl(_logger, "glEnableVertexAttribArray color");
-
   glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
   zOGLESRuntime::check_op_gl(_logger, "glDrawArrays");
+
+  //glDisableVertexAttribArray(_color);
+  //glDisableVertexAttribArray(_position);
 }

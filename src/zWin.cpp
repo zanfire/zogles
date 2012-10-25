@@ -45,7 +45,7 @@ void zWin::start(void) {
 #include "zGuiRect.h"
 
 int zWin::run(void* param) {
-  impl_create(zRect(10, 10, 400, 400));
+  impl_create(zRect(10, 10, 600, 600));
 
   zOGLESRuntime* runtime = zOGLESRuntime::get_instance();
   
@@ -57,7 +57,7 @@ int zWin::run(void* param) {
 
   _root = new zGuiStack(this);
 
-  for (int i = 0; i < 0; i++) {
+  for (int i = 0; i < 2; i++) {
     zGuiObject* o = new zGuiRect(this);
     o->set_width(100);
     o->set_height(100);
@@ -73,7 +73,17 @@ int zWin::run(void* param) {
     _root->add_child(o);
     o->release_reference();
   }
-  ((zGuiStack*)_root)->set_orientation(zGuiStack::ORIENTATION_VERTICAL);
+
+  for (int i = 0; i < 2; i++) {
+    zGuiObject* o = new zGuiRect(this);
+    o->set_width(100);
+    o->set_height(100);
+    o->set_padding(zRect(10, 10, 10, 10));
+    _root->add_child(o);
+    o->release_reference();
+  }
+
+  ((zGuiStack*)_root)->set_orientation(zGuiStack::ORIENTATION_HORIZONTAL);
   _root->init();
 
 
@@ -122,12 +132,13 @@ void zWin::render(void) {
   // Color background
   glDisable(GL_DITHER);
   glDisable(GL_DEPTH_TEST);
-  
-  glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+
+  glClearColor(0.3f, 0.3f, 0.3f, 1.0f);
   glClear(GL_COLOR_BUFFER_BIT);
   
-
-
+  glEnable(GL_BLEND);
+  glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+   
   if (_root != NULL) {
     _root->render();
   }

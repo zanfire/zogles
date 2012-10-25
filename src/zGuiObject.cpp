@@ -11,7 +11,7 @@ zGuiObject::zGuiObject(zWin* win) : _children(YES, 10) {
   _parent = NULL;
   _is_enabled = true;
   _is_visible = true;
-
+  _alpha = 1.0f;
   _width = -1;
   _height = -1; 
 }

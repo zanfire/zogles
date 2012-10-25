@@ -34,6 +34,7 @@ class zGuiText : public zGuiObject {
 protected:
   zFontFT* _font;
   zString _text;
+  int _font_size;
   zArray<zFontGlyph*> _glyphs;
 
   zOGLESFragmentShaderProgram* _program;
@@ -48,6 +49,7 @@ protected:
 public:
   zGuiText(zWin* win);
 
+  void set_font_size(int size) { _font_size = size; };
   void set_text(zString const& text) { _text = text; }
   zString get_text(void) { return _text; }
 

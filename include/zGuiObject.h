@@ -36,6 +36,7 @@ protected:
   zArray<zGuiObject*> _children;
   bool _is_enabled;
   bool _is_visible;
+  float _alpha;
 
 public:
   zGuiObject(zWin* win);

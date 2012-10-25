@@ -31,7 +31,8 @@ protected:
   zOGLESFragmentShaderProgram* _program;
   GLint _position;
   GLint _color;
-  GLfloat _position_vertexs[6 * 2];
+  GLfloat _position_vertexs[4 * 2];
+  
 public:
   zGuiRect(zWin* win);
 
