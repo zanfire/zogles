@@ -27,6 +27,14 @@ zFontFT::zFontFT(void) : _glyphs(NO, 1024) {
 
 
 zFontFT::~zFontFT(void) {
+  while (_glyphs.get_count() > 0) {
+    zFontGlyph* glyph =  NULL;
+    if (_glyphs.remove(0, &glyph)) {
+      glyph->release_reference();
+    }
+  }
+
+
   FT_Done_Face(*((FT_Face*)_face));
 	FT_Done_FreeType(*((FT_Library*)(_library)));
 

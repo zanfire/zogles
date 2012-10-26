@@ -20,11 +20,21 @@ zGuiText::zGuiText(zWin* win) : zGuiObject(win), _glyphs(NO, 1024) {
 
 
 zGuiText::~zGuiText(void) {
+  while (_glyphs.get_count() > 0) {
+    zFontGlyph* glyph =  NULL;
+    if (_glyphs.remove(0, &glyph)) {
+      glyph->release_reference();
+    }
+  }
+
   if (_program != NULL) {
     delete _program;
     _program = NULL;
   }
   _font->release_reference();
+  if (_position_vertexs != NULL) {
+    free(_position_vertexs);
+  }
 }
 
 void zGuiText::impl_init(void) {

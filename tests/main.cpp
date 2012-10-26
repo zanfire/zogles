@@ -123,7 +123,6 @@ int main(int argc, char const** argv) {
     DebugBreak();
   }
 #endif
-
   return EXIT_SUCCESS;
 }
 

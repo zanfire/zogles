@@ -59,8 +59,8 @@ int zWin::run(void* param) {
 
   for (int i = 0; i < 2; i++) {
     zGuiObject* o = new zGuiRect(this);
-    o->set_width(100);
-    o->set_height(100);
+    o->set_width(20);
+    o->set_height(20);
     o->set_padding(zRect(10, 10, 10, 10));
     _root->add_child(o);
     o->release_reference();
@@ -69,6 +69,7 @@ int zWin::run(void* param) {
   for (int i = 0; i < 1; i++) {
     zGuiText* o = new zGuiText(this);
     o->set_text("Hello world!");
+    o->set_font_size(20);
     o->set_padding(zRect(10, 10, 10, 10));
     _root->add_child(o);
     o->release_reference();
@@ -76,14 +77,14 @@ int zWin::run(void* param) {
 
   for (int i = 0; i < 2; i++) {
     zGuiObject* o = new zGuiRect(this);
-    o->set_width(100);
-    o->set_height(100);
+    o->set_width(20);
+    o->set_height(20);
     o->set_padding(zRect(10, 10, 10, 10));
     _root->add_child(o);
     o->release_reference();
   }
 
-  ((zGuiStack*)_root)->set_orientation(zGuiStack::ORIENTATION_HORIZONTAL);
+  ((zGuiStack*)_root)->set_orientation(zGuiStack::ORIENTATION_VERTICAL);
   _root->init();
 
 
