@@ -46,7 +46,7 @@ void zGuiText::impl_init(void) {
     zFontGlyph* glyph = _font->load_bitmap((unsigned long)(_text.get_buffer()[i]), _font_size);
 
     // Move the draw position
-    _width += glyph->get_bitmap_width() + glyph->get_glyph_left() + (glyph->get_advance_x() >> 6);
+    _width += glyph->get_glyph_left() + glyph->get_advance_x();
     int h = glyph->get_bitmap_height() + glyph->get_glyph_top();
     if (h > _height) {
       _height = h;
@@ -80,8 +80,6 @@ void zGuiText::impl_init(void) {
   _coord = _program->get_attrib_location("coord");
   _uniform_tex = _program->get_uniform_location("tex");
   _uniform_color =  _program->get_uniform_location("color");
-
-  glGenBuffers(1, &_vbo);
   glGenTextures(1, &_tex);  
 
   glEnableVertexAttribArray(_coord);
@@ -89,27 +87,27 @@ void zGuiText::impl_init(void) {
 
 
 void zGuiText::impl_layout(zRect const& area) {
-  float win_w = (float)_win->get_width();
-  float win_h = (float)_win->get_height();
-  float x = -1.0f + area.left / win_w + _padding.left / win_w;
-  float y = -1.0f + area.top / win_h + _padding.top / win_h;
+  float win_w = 2.0f / (float)_win->get_width();
+  float win_h = 2.0f / (float)_win->get_height();
+  float x = -1.0f + area.left * win_w + _padding.left * win_w;
+  float y = -1.0f + area.top * win_h + _padding.top * win_h;
   
   GLfloat* ptr = _position_vertexs;
   for (int i = 0; i < _glyphs.get_count(); i++) {
     zFontGlyph* glyph = NULL;
     if (_glyphs.get(i, &glyph)) {
-      float x2 = x + glyph->get_glyph_left() * (2.0f / win_w);
-      float y2 = -y - glyph->get_glyph_top() * (2.0f / win_h);
-      float w = glyph->get_bitmap_width() * (2.0f / win_w);
-      float h = glyph->get_bitmap_height() * (2.0f / win_h);
-      GLfloat vertexs[] = { x2,      -y2,     0, 0,
-                            x2 + w,  -y2,     1, 0,
-                            x2,      -y2 - h, 0, 1,
-                            x2 + w,  -y2 - h, 1, 1 };
+      float x2 = x + glyph->get_glyph_left() * win_w;
+      float y2 = y + glyph->get_glyph_top() * win_h;
+      float w = glyph->get_bitmap_width() * win_w;
+      float h = glyph->get_bitmap_height() * win_h;
+      GLfloat vertexs[] = { x2,      y2,     0, 0,
+                            x2 + w,  y2,     1, 0,
+                            x2,      y2 - h, 0, 1,
+                            x2 + w,  y2 - h, 1, 1 };
       memcpy(ptr, &vertexs, sizeof(vertexs));
       // 
       ptr = ptr + 16;
-      x += (glyph->get_advance_x() >> 6) * (2.0f / win_w);
+      x += glyph->get_advance_x() * win_w;
     }
   }
 }
@@ -121,20 +119,16 @@ void zGuiText::impl_render(void) {
   
   glActiveTexture(GL_TEXTURE0);
   glBindTexture(GL_TEXTURE_2D, _tex);
+  glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
+  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER , GL_LINEAR);
+  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER , GL_LINEAR);
   glUniform1i(_uniform_tex, 0);
 
   GLfloat red[] = {1.0f, 0.0f, 0.0f, 1.0f};
   glUniform4fv(_uniform_color, 1, red);
 
-  glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
-
-  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-  
-  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER , GL_LINEAR);
-  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER , GL_LINEAR);
-
-  
   GLfloat* pos = _position_vertexs;
   for (int i = 0; i < _glyphs.get_count(); i++) {
     zFontGlyph* glyph = NULL;

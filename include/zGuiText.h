@@ -44,7 +44,6 @@ protected:
   GLfloat* _position_vertexs;
 
   GLuint _tex;
-  GLuint _vbo;
   
 public:
   zGuiText(zWin* win);

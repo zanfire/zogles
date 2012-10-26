@@ -52,12 +52,12 @@ void zGuiRect::impl_init(void) {
 
 
 void zGuiRect::impl_layout(zRect const& area) {
-  float win_w = (float)_win->get_width();
-  float win_h = (float)_win->get_height();
-  float x = -1.0f + area.left / win_w + _padding.left / win_w;
-  float y = -1.0f + area.top / win_h + _padding.top / win_h;
-  float rel_w = _width / win_w;
-  float rel_h = _height / win_h;
+  float win_w = 2.0f / (float)_win->get_width();
+  float win_h = 2.0f / (float)_win->get_height();
+  float x = -1.0f + area.left * win_w + _padding.left * win_w;
+  float y = -1.0f + area.top * win_h + _padding.top *  win_h;
+  float rel_w = _width  * win_w;
+  float rel_h = _height * win_h;
 
   GLfloat vertexs[] = { x,          y,       
                         x + rel_w,  y,       

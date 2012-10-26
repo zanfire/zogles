@@ -65,7 +65,7 @@ zFontFT::Error zFontFT::load_file(const char* path) {
 }
 
 
-zFontGlyph* zFontFT::load_bitmap(unsigned long unicode, int desiredHeight) {
+zFontGlyph* zFontFT::load_bitmap(unsigned long unicode, int font_size) {
 
   // Search glyphs.
   for (int i = 0; i < _glyphs.get_count(); i++) {
@@ -73,7 +73,7 @@ zFontGlyph* zFontFT::load_bitmap(unsigned long unicode, int desiredHeight) {
     zFontGlyph* glyph = NULL;
     if (_glyphs.get(i, &glyph)) {
       // 
-      if (glyph->get_unicode() == unicode && glyph->get_font_size() == desiredHeight) {
+      if (glyph->get_unicode() == unicode && glyph->get_font_size() == font_size) {
         glyph->acquire_reference();
         return glyph;
       }
@@ -91,7 +91,9 @@ zFontGlyph* zFontFT::load_bitmap(unsigned long unicode, int desiredHeight) {
   // In Terms Of 1/64ths Of Pixels.  Thus, To Make A Font
   // h Pixels High, We Need To Request A Size Of h*64.
   // (h << 6 Is Just A Prettier Way Of Writing h*64)
-  FT_Set_Char_Size(*face, desiredHeight << 6, desiredHeight << 6, 96, 96);
+  // NOTE: 0 means same values. (ex: w: 6 h: 0 means w: 6 h: 6)
+  // TODO: GET DPI from the system!!!!!!!
+  FT_Set_Char_Size(*face, 0, font_size << 6, 96, 96);
 
   // Load The Glyph For Our Character.
 	FT_UInt idx = FT_Get_Char_Index(*face, unicode);
@@ -100,44 +102,13 @@ zFontGlyph* zFontFT::load_bitmap(unsigned long unicode, int desiredHeight) {
 		return NULL;
 	}
  
-  /*
-    // Move The Face's Glyph Into A Glyph Object.
-  _glyph = (FT_Glyph*) malloc(sizeof(FT_Glyph));
-  if (FT_Get_Glyph( (*face)->glyph, (FT_Glyph*)_glyph )) {
-		free(_glyph);
-		_glyph = NULL;
-    _logger->error("Failed to load glyph for unicode %lu because the get glyph has failed.");
-    return NULL;
-	}
-	// Convert The Glyph To A Bitmap.
-  FT_Glyph_To_Bitmap((FT_Glyph*)_glyph, FT_RENDER_MODE_LIGHT, 0, 1);
-  */
-
   if (FT_Render_Glyph((*face)->glyph, FT_RENDER_MODE_LIGHT)) {
     _logger->error("Failed to render glyph for unicode %lu.", unicode);
     return NULL;
   }
   
-  zFontGlyph* glyph = new zFontGlyph(unicode, (*face)->glyph->bitmap.buffer, desiredHeight, (*face)->glyph->bitmap.width, (*face)->glyph->bitmap.rows, (*face)->glyph->bitmap_left, (*face)->glyph->bitmap_top, (*face)->glyph->advance.x, (*face)->glyph->advance.y);
+  zFontGlyph* glyph = new zFontGlyph(unicode, (*face)->glyph->bitmap.buffer, font_size, (*face)->glyph->bitmap.width, (*face)->glyph->bitmap.rows, (*face)->glyph->bitmap_left, (*face)->glyph->bitmap_top, (*face)->glyph->advance.x >> 6, (*face)->glyph->advance.y >> 6);
   glyph->acquire_reference();
   _glyphs.append(glyph);
   return glyph;
 }
-
-/*
-
-  // This Reference Will Make Accessing The Bitmap Easier.
-  FT_Bitmap& bitmap = bitmap_glyph->bitmap;
-
-	// Use Our Helper Function To Get The Widths Of
-	// The Bitmap Data That We Will Need In Order To Create
-	// Our Texture.
-	bmpW = bitmap.width;
-	bmpH = bitmap.rows;
-
-	memcpy(out_bitmap, bitmap.buffer, bitmap.rows * bitmap.pitch);
-
-	glyphLeft = bitmap_glyph->left;
-	glyphTop = bitmap_glyph->top;
-	advanceX = (*face)->glyph->advance.x;
-*/
