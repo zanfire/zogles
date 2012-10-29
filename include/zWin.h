@@ -22,12 +22,14 @@
 #include "zThread.h"
 #include "zObject.h"
 #include "zRunnable.h"
+#include "zColor.h"
 
 #include <EGL/egl.h>
 
 class zThread;
 class zLogger;
 class zGuiObject;
+class zWinListener;
 
 #if defined(_WIN32)
 # define ZWIN_ID HWND
@@ -44,8 +46,10 @@ protected:
   ZWIN_ID _id;
   zMutex* _mtx;
   zThread* _thread;
+  zWinListener* _listener;
   bool _request_close;
   zGuiObject* _root;
+  zSolidColor _background_color;
   
   bool _invalidate_pos;
   zRect _pos;
@@ -62,8 +66,10 @@ public:
   int get_width(void) const { return _pos.width(); }
   int get_height(void) const { return _pos.height(); }
 
+  void set_background_color(zSolidColor const& color) { _background_color = color; }
+
 protected:
-  zWin(zWinFactory* factory);
+  zWin(zWinFactory* factory, zWinListener* listener);
   virtual ~zWin(void);
     
   void start(void);

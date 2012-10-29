@@ -11,6 +11,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\tests\GuiTest.cpp" />
     <ClCompile Include="..\tests\main.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -20,6 +21,9 @@
     <ProjectReference Include="zogles.vcxproj">
       <Project>{83873e51-cc84-4fea-9a9d-5a7b2336a59a}</Project>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\tests\GuiTest.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{D711E9BB-349E-4EE2-AF14-2E5ECD1BC1DC}</ProjectGuid>
@@ -65,7 +69,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>../include/;../../zanbase/include;../externals/mali_emulator/include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../include/;../../zanbase/include;../externals/ogles/include</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -87,7 +91,7 @@ xcopy /Y $(SolutionDir)..\externals\ogles\powervr\lib\libEGL.dll $(OutDir)</Comm
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>../include/;../../zanbase/include;../externals/mali_emulator/include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../include/;../../zanbase/include;../externals/ogles/include</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>

@@ -36,6 +36,8 @@
 #include "zWin.h"
 #include "zWinFactory.h"
 
+#include "GuiTest.h"
+
 #if defined(ENABLED_DMALLOC)
 #  include <dmalloc.h>
 #endif
@@ -106,8 +108,10 @@ int main(int argc, char const** argv) {
   g_logger = zLogger::get_logger("zanbase_test_runner");
 
   // Create all window.
+  GuiTest* gui = new GuiTest();
   zWinFactory* factory = zWinFactory::get_instance();
-  zWin* win = factory->create(zRect(10, 10, 210, 210), "Main window");
+  zWin* win = factory->create(zRect(10, 10, 210, 210), "Main window", gui);
+  win->set_background_color(zSolidColor(0, 0, 0));
   // 
   factory->wait_all_windows_close();
 
@@ -116,6 +120,7 @@ int main(int argc, char const** argv) {
   g_logger->shutdown();
   g_logger->release_reference();
   delete getopt;
+  delete gui;
 
 #if defined(_CRTDBG_MAP_ALLOC)
   int found = _CrtDumpMemoryLeaks();

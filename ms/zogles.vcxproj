@@ -16,6 +16,7 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="..\include\zFontGlyph.h" />
+    <ClInclude Include="..\include\zGuiAbsLayout.h" />
     <ClInclude Include="..\include\zGuiObject.h" />
     <ClInclude Include="..\include\zGuiRect.h" />
     <ClInclude Include="..\include\zGuiStack.h" />
@@ -28,6 +29,7 @@
     <ClInclude Include="..\include\zOGLESTexture.h" />
     <ClInclude Include="..\include\zWin.h" />
     <ClInclude Include="..\include\zWinFactory.h" />
+    <ClInclude Include="..\include\zWinListener.h" />
     <ClInclude Include="..\include\zWin_windows.h" />
   </ItemGroup>
   <ItemGroup>
@@ -36,6 +38,7 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="..\src\zFontGlyph.cpp" />
+    <ClCompile Include="..\src\zGuiAbsLayout.cpp" />
     <ClCompile Include="..\src\zGuiObject.cpp" />
     <ClCompile Include="..\src\zGuiRect.cpp" />
     <ClCompile Include="..\src\zGuiStack.cpp" />
@@ -99,7 +102,7 @@
       <WarningLevel>Level4</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>../include;../../zanbase/include;../externals/mali_emulator/include;../externals/freetype/include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../include;../../zanbase/include;../externals/ogles/include;../externals/freetype/include</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -115,7 +118,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>../include;../../zanbase/include;../externals/mali_emulator/include;../externals/freetype/include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../include;../../zanbase/include;../externals/ogles/include;../externals/freetype/include</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>

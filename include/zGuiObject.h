@@ -26,6 +26,20 @@ class zWin;
 class zLogger;
 
 class zGuiObject : public zObject {
+
+public:
+  enum VerticalAlignament {
+    VERTICAL_ALIGN_TOP,
+    VERTICAL_ALIGN_CENTER,
+    VERTICAL_ALIGN_BOTTOM
+  };
+
+  enum HorizontalAlignament {
+    HORIZONTAL_ALIGN_TOP,
+    HORIZONTAL_ALIGN_CENTER,
+    HORIZONTAL_ALIGN_BOTTOM
+  };
+
 protected:
   zLogger* _logger;
   zWin* _win;
@@ -37,6 +51,8 @@ protected:
   bool _is_enabled;
   bool _is_visible;
   float _alpha;
+  HorizontalAlignament _horizontal_align;
+  VerticalAlignament _vertical_align;
 
 public:
   zGuiObject(zWin* win);
@@ -58,8 +74,6 @@ public:
   bool is_enabled(void) const { return _is_enabled; }
   bool is_visible(void) const { return _is_visible; }
 
-  bool add_child(zGuiObject* child);
-
   zGuiObject* get_parent(void) const { return _parent; }
   zGuiObject* get_child_at(int index) const;
   int get_child_count(void) const;
@@ -71,6 +85,9 @@ public:
 
 protected:
   virtual ~zGuiObject(void);
+
+  bool add_child(zGuiObject* child);
+
 
   /*** zGuiObject interface **/
   virtual void impl_init(void) = 0;

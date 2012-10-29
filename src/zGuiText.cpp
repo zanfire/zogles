@@ -42,18 +42,20 @@ void zGuiText::impl_init(void) {
 
   _width = 0;
   _height = 0;
+  int advance_y = 0;
   for (int i = 0; i < _text.get_length(); i++) {
     zFontGlyph* glyph = _font->load_bitmap((unsigned long)(_text.get_buffer()[i]), _font_size);
 
     // Move the draw position
-    _width += glyph->get_glyph_left() + glyph->get_advance_x();
+    _width +=  glyph->get_advance_x();
     int h = glyph->get_bitmap_height() + glyph->get_glyph_top();
     if (h > _height) {
       _height = h;
     }
-    //y += (glyph->get_advance_y() >> 6) * sy;
+    advance_y += glyph->get_advance_y();
     _glyphs.append(glyph);
   }
+  _height += advance_y;
   _position_vertexs = (GLfloat*) malloc(sizeof(GLfloat) * 16 * _glyphs.get_count());
 
   // TODO: de-init
@@ -108,6 +110,7 @@ void zGuiText::impl_layout(zRect const& area) {
       // 
       ptr = ptr + 16;
       x += glyph->get_advance_x() * win_w;
+      y += glyph->get_advance_y() * win_h;
     }
   }
 }

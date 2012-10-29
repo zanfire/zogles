@@ -16,7 +16,7 @@ LRESULT CALLBACK  main_loop(HWND hWnd, UINT uiMsg, WPARAM wParam, LPARAM lParam)
   }
 }
 
-zWin_windows::zWin_windows(zWinFactory* factory) : zWin(factory) {
+zWin_windows::zWin_windows(zWinFactory* factory, zWinListener* listener) : zWin(factory, listener) {
   _deviceContext = 0;
 }
 

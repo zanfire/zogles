@@ -14,8 +14,8 @@
  * limitations under the License.
  *****************************************************************************/
 
-#ifndef ZGUISTACK_H__
-#define ZGUISTACK_H__
+#ifndef ZGUIABSLAYOUT_H__
+#define ZGUIABSLAYOUT_H__
 
 #include "zCommon.h"
 #include "zGuiObject.h"
@@ -23,29 +23,41 @@
 class zLogger;
 class zWin;
 
-/// This class is a container of zGuiObject. Each obj is stacked vertically/horizontally (set_orientation).
-class zGuiStack : public zGuiObject {
+/// This class is a container of zGuiObject. 
+/// Each obj is placed in base of position information.
+class zGuiAbsLayout : public zGuiObject {
 public:
-  enum Orientation {
-    ORIENTATION_VERTICAL = 0,
-    ORIENTATION_HORIZONTAL
+  enum Edge {
+    EDGE_LEFT_TOP,
+    EDGE_RIGHT_TOP,
+    EDGE_LEFT_BOTTOM,
+    EDGE_RIGHT_BOTTOM
   };
 
 protected:
-    Orientation _orientation;
+  struct AbsLayoutPosition {
+    zGuiObject* obj;
+    float x;
+    float y;
+    Edge edge;
+  };
+
+  zArray<AbsLayoutPosition> _children_positions;
+
 public:
-  zGuiStack(zWin* win);
+  zGuiAbsLayout(zWin* win);
   
-  bool add(zGuiObject* child) { return add_child(child); }
-  void set_orientation(Orientation orientation) { _orientation = orientation; }
+  bool add(zGuiObject* obj, float x, float y, Edge edge);
 
 protected:
   /// Protected because must be delete by zObject::release_reference.
-  virtual ~zGuiStack(void);
+  virtual ~zGuiAbsLayout(void);
 
   virtual void impl_init(void) {}
   virtual void impl_layout(zRect const& area);
   virtual void impl_render(void);
+
+  // Should HIDE normal ADD!!!
 };
 
 #endif // ZGUISTACK_H__

@@ -30,10 +30,10 @@ void zWinFactory::shutdown(void) {
   
 
 
-zWin* zWinFactory::create(zRect const& pos, zString const& name) {
+zWin* zWinFactory::create(zRect const& pos, zString const& name, zWinListener* listener) {
   zScopeMutex scope(_singleton_mtx);
 #if defined(_WIN32)
-  zWin* win = new zWin_windows(this);
+  zWin* win = new zWin_windows(this, listener);
 #endif
   _windows.append(win);
   win->start();

@@ -14,6 +14,9 @@ zGuiObject::zGuiObject(zWin* win) : _children(YES, 10) {
   _alpha = 1.0f;
   _width = -1;
   _height = -1; 
+
+  _horizontal_align = HORIZONTAL_ALIGN_CENTER;
+  _vertical_align = VERTICAL_ALIGN_CENTER;
 }
 
 

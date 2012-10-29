@@ -14,39 +14,21 @@
  * limitations under the License.
  *****************************************************************************/
 
-#ifndef ZGUISTACK_H__
-#define ZGUISTACK_H__
+#ifndef ZGUITEST_H__
+#define ZGUITEST_H__
 
 #include "zCommon.h"
-#include "zGuiObject.h"
+#include "zWin.h"
+#include "zWinListener.h"
 
-class zLogger;
-class zWin;
-
-/// This class is a container of zGuiObject. Each obj is stacked vertically/horizontally (set_orientation).
-class zGuiStack : public zGuiObject {
+class GuiTest : public zWinListener {
 public:
-  enum Orientation {
-    ORIENTATION_VERTICAL = 0,
-    ORIENTATION_HORIZONTAL
-  };
+  GuiTest(void);
+  virtual ~GuiTest(void);
 
-protected:
-    Orientation _orientation;
-public:
-  zGuiStack(zWin* win);
-  
-  bool add(zGuiObject* child) { return add_child(child); }
-  void set_orientation(Orientation orientation) { _orientation = orientation; }
-
-protected:
-  /// Protected because must be delete by zObject::release_reference.
-  virtual ~zGuiStack(void);
-
-  virtual void impl_init(void) {}
-  virtual void impl_layout(zRect const& area);
-  virtual void impl_render(void);
+  virtual zGuiObject* on_create(zWin* win);
+  virtual void on_destroy(zWin* win) {}
 };
 
-#endif // ZGUISTACK_H__
+#endif // ZGUITEST_H__
 

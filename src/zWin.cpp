@@ -5,9 +5,8 @@
 #include "zMutex.h"
 
 #include "zWinFactory.h"
+#include "zWinListener.h"
 #include "zGuiObject.h"
-#include "zGuiStack.h"
-#include "zGuiText.h"
 #include "zOGLESRuntime.h"
 #include "zOGLESConfigs.h"
 #include "zOGLESContext.h"
@@ -17,11 +16,12 @@
 #include <GLES2/gl2ext.h>
 
 
-zWin::zWin(zWinFactory* factory) {
+zWin::zWin(zWinFactory* factory, zWinListener* listener) : _background_color(255, 255, 255, 255) {
   _logger = zLogger::get_logger("zWin");
   _mtx = new zMutex();
   _id = 0;
   _thread = new zThread(this);
+  _listener = listener;
   _root = NULL;
   _request_close = false;
   _factory = factory;
@@ -55,36 +55,7 @@ int zWin::run(void* param) {
   contex->make_current();
   // Load gui objects
 
-  _root = new zGuiStack(this);
-
-  for (int i = 0; i < 2; i++) {
-    zGuiObject* o = new zGuiRect(this);
-    o->set_width(100);
-    o->set_height(100);
-    o->set_padding(zRect(10, 10, 10, 10));
-    _root->add_child(o);
-    o->release_reference();
-  }
-  
-  for (int i = 0; i < 1; i++) {
-    zGuiText* o = new zGuiText(this);
-    o->set_text("Hello world!");
-    o->set_font_size(100);
-    o->set_padding(zRect(10, 10, 10, 10));
-    _root->add_child(o);
-    o->release_reference();
-  }
-
-  for (int i = 0; i < 2; i++) {
-    zGuiObject* o = new zGuiRect(this);
-    o->set_width(100);
-    o->set_height(100);
-    o->set_padding(zRect(10, 10, 10, 10));
-    _root->add_child(o);
-    o->release_reference();
-  }
-
-  ((zGuiStack*)_root)->set_orientation(zGuiStack::ORIENTATION_HORIZONTAL);
+  _root = _listener->on_create(this);
   _root->init();
 
 
@@ -134,7 +105,8 @@ void zWin::render(void) {
   glDisable(GL_DITHER);
   glDisable(GL_DEPTH_TEST);
 
-  glClearColor(0.3f, 0.3f, 0.3f, 1.0f);
+  
+  glClearColor(_background_color.get_float_r(), _background_color.get_float_g(), _background_color.get_float_b(), 1.0f);
   glClear(GL_COLOR_BUFFER_BIT);
   
   glEnable(GL_BLEND);

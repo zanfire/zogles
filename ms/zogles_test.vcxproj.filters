@@ -9,5 +9,13 @@
     <ClCompile Include="..\tests\main.cpp">
       <Filter>tests</Filter>
     </ClCompile>
+    <ClCompile Include="..\tests\GuiTest.cpp">
+      <Filter>tests</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\tests\GuiTest.h">
+      <Filter>tests</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

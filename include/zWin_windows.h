@@ -20,15 +20,16 @@
 #include "zCommon.h"
 #include "zWin.h"
 
-
 #include <Windows.h>
+
+class zWinListener;
 
 class zWin_windows : public zWin {
 public:
   HDC _deviceContext;
 
 public:
-  zWin_windows(zWinFactory* factory);
+  zWin_windows(zWinFactory* factory, zWinListener* listener);
   virtual ~zWin_windows(void);
 
   

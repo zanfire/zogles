@@ -24,6 +24,8 @@
 #include "zArray.h"
 #include "zEvent.h"
 
+class zWinListener;
+
 class zWinFactory {
   
   friend class zWin;
@@ -41,7 +43,7 @@ public:
   static void shutdown(void);
   
   /// Create a window
-  zWin* create(zRect const& pos, zString const& name);
+  zWin* create(zRect const& pos, zString const& name, zWinListener* listener);
   /// Get zWin by window id.
   zWin* get_by_id(ZWIN_ID id);
   /// Wait for all windows are closed.
