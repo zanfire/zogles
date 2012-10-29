@@ -42,27 +42,41 @@ void zGuiAbsLayout::impl_layout(zRect const& area) {
       int x = base_x;
       int y = base_y;
       if (pos.edge == EDGE_LEFT_TOP) {
-        x += (area.width() * pos.x);
-        y += area.height() - (area.height() * pos.y) - h;
+        x += (int)(area.width() * pos.x);
+        y += area.height() - (int)(area.height() * pos.y) - h;
       }
       else if (pos.edge == EDGE_RIGHT_TOP) {
-        x += area.width() - (area.width() * pos.x) - w;
-        y += area.height() - (area.height() * pos.y) - h;
+        x += area.width() - (int)(area.width() * pos.x) - w;
+        y += area.height() - (int)(area.height() * pos.y) - h;
       }
       else if (pos.edge == EDGE_RIGHT_BOTTOM) {
-        x += area.width() - (area.width() * pos.x) - w;
-        y += (area.height() * pos.y);
+        x += area.width() - (int)(area.width() * pos.x) - w;
+        y += (int)(area.height() * pos.y);
       }
       else if (pos.edge == EDGE_LEFT_BOTTOM) {
-        x += (area.width() * pos.x);
-        y += (area.height() * pos.y);
+        x += (int)(area.width() * pos.x);
+        y += (int)(area.height() * pos.y);
       }
 
-      
-      //if (/*obj->get_horizontal_align() == HORIZONTAL_ALIGN_CENTER*/) {
+      if (obj->get_horizontal_align() == HORIZONTAL_ALIGN_LEFT) {
+        // nop
+      }
+      else if (obj->get_horizontal_align() == HORIZONTAL_ALIGN_CENTER) {
         x -= w / 2;
-        //y -= h / 2;
-      //}
+      }
+      else if (obj->get_horizontal_align() == HORIZONTAL_ALIGN_RIGHT) {
+        x -= w;
+      }
+
+      if (obj->get_vertical_align() == VERTICAL_ALIGN_TOP) {
+        y -= h;
+      }
+      else if (obj->get_vertical_align() == VERTICAL_ALIGN_CENTER) {
+        y -= h / 2;
+      }
+      else if (obj->get_vertical_align() == VERTICAL_ALIGN_BOTTOM) {
+        // nop
+      }
       //_vertical_align = VERTICAL_ALIGN_CENTER;
 
       obj->layout(zRect(x, y, w, h));

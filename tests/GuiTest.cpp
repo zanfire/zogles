@@ -118,6 +118,8 @@ zGuiObject* GuiTest::on_create(zWin* win) {
   {
     zGuiText* o = new zGuiText(win);
     o->set_text("ON KORO KORO SENDARI MATOGI SOWAKA.");
+    o->set_vertical_align(zGuiObject::VERTICAL_ALIGN_CENTER);
+    o->set_horizontal_align(zGuiObject::HORIZONTAL_ALIGN_CENTER);
     o->set_font_size(20);
     o->set_padding(zRect(10, 10, 10, 10));
     root->add(o, 0.5f, 0.5f, zGuiAbsLayout::EDGE_LEFT_TOP);

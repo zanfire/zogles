@@ -35,9 +35,9 @@ public:
   };
 
   enum HorizontalAlignament {
-    HORIZONTAL_ALIGN_TOP,
+    HORIZONTAL_ALIGN_LEFT,
     HORIZONTAL_ALIGN_CENTER,
-    HORIZONTAL_ALIGN_BOTTOM
+    HORIZONTAL_ALIGN_RIGHT
   };
 
 protected:
@@ -71,6 +71,10 @@ public:
   bool set_enabled(bool b) { _is_enabled = b; }
   bool set_visible(bool b) { _is_visible = b; }
 
+  void set_horizontal_align(HorizontalAlignament align) { _horizontal_align = align; }
+  void set_vertical_align(VerticalAlignament align) { _vertical_align = align; }
+
+
   bool is_enabled(void) const { return _is_enabled; }
   bool is_visible(void) const { return _is_visible; }
 
@@ -82,6 +86,8 @@ public:
   int get_width() { return _width; }
   int get_height() { return _height; }
 
+  HorizontalAlignament get_horizontal_align(void) { return _horizontal_align; }
+  VerticalAlignament get_vertical_align(void) { return _vertical_align; }
 
 protected:
   virtual ~zGuiObject(void);
