@@ -48,7 +48,7 @@ void zGuiText::impl_init(void) {
 
     // Move the draw position
     _width +=  glyph->get_advance_x();
-    int h = glyph->get_bitmap_height() + glyph->get_glyph_top();
+    int h = glyph->get_bitmap_height();
     if (h > _height) {
       _height = h;
     }
